@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../app/page.module.css";
+import styles from "../app/Home.module.css";
 import { ControleEditora } from "@/classes/controle/ControleEditora";
 import { Livro } from "@/classes/modelo/Livro";
 import { Menu} from "@/classes/componentes/Menu";

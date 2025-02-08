@@ -1,6 +1,6 @@
 import { Livro } from "@/classes/modelo/Livro";
 import { Menu } from "@/classes/componentes/Menu";
-import styles from "../app/page.module.css";
+import styles from "../app/Home.module.css";
 import { LinhaLivro } from "@/classes/componentes/LinhaLivro";
 import { useEffect, useState } from "react";
 import Head from "next/head";
