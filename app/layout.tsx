@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import './globals.css';
+// import '../styles/globals.css';
+import '../styles/Home.module.css';
 import { Metadata } from 'next';
+import { ReactNode } from 'react';
 
 export const metaData: Metadata =  {
   title :"Loja Next",

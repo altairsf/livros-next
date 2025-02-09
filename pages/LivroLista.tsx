@@ -1,9 +1,10 @@
 import { Livro } from "@/classes/modelo/Livro";
-import { Menu } from "@/classes/componentes/Menu";
-import styles from "../app/Home.module.css";
+import { Menu } from "../classes/componentes/Menu";
+import styles from "../styles/Home.module.css";
 import { LinhaLivro } from "@/classes/componentes/LinhaLivro";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import RootLayout from "@/app/layout";
 
 const baseURL: string = "http://localhost:3000/api/livros";
 
@@ -38,6 +39,7 @@ const LivroLista : React.FC = () => {
         });
     };
     return (
+        <RootLayout>
         <div className ={styles.container}>
             <Head>
                 <title>Loja Next</title>
@@ -46,7 +48,7 @@ const LivroLista : React.FC = () => {
             <Menu />
             {/* Área principal da página */}
             <main className={styles.main}>
-                <h1 className={styles.title}>Página Inicial</h1>
+                <h1 className={styles.title}>Catálogo de Livros</h1>
                 <table className="table table-striped table-bordered">
                     <thead className ="table-dark">
                     <tr>
@@ -64,6 +66,7 @@ const LivroLista : React.FC = () => {
                 </table>
             </main>
         </div>
+        </RootLayout>
     );
 };
 

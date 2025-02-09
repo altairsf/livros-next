@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import styles from "../app/Home.module.css";
+import styles from "../styles/Home.module.css";
 import { ControleEditora } from "@/classes/controle/ControleEditora";
 import { Livro } from "@/classes/modelo/Livro";
-import { Menu} from "@/classes/componentes/Menu";
+import { Menu } from "../classes/componentes/Menu";
 import { ok } from "assert";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import RootLayout from "@/app/layout";
 
 const controleEditora = new ControleEditora();
 const baseURL: string = "http://localhost:3000/api/livros";
@@ -49,12 +50,15 @@ const LivroDados: React.FC = () => {
     };
 
     return (
+        <RootLayout>
         <div className = {styles.container}>
             <Head>
                 <title>Loja Next</title>
             </Head>
+
             {/* Inclusão do menu */}
             <Menu />
+            
             {/* Área principal da página */}
             <main className = {styles.main}>
                 <h1 className = {styles.title}>Cadastro de Livro</h1>
@@ -107,6 +111,7 @@ const LivroDados: React.FC = () => {
                 </form>
             </main>
         </div>
+        </RootLayout>
     );
 };
 
