@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import { ControleEditora } from "@/classes/controle/ControleEditora";
 import { Livro } from "@/classes/modelo/Livro";
-import { Menu } from "../classes/componentes/Menu";
+import { Menu } from "@/classes/componentes/Menu";
 import { ok } from "assert";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -28,7 +28,7 @@ const LivroDados: React.FC = () => {
     const [titulo, setTitulo] = useState("");
     const [resumo, setResumo] = useState("");
     const [autores, setAutores] = useState("");
-    const [codEditora, setCodEditora] =useState(opcoes[0]?.value || 0);
+    const [codEditora, setCodEditora] = useState(opcoes[0]?.value || 0);
 
     const router = useRouter();
     
@@ -38,6 +38,11 @@ const LivroDados: React.FC = () => {
 
     const incluir = async (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
+
+        if (codEditora === null) {
+            alert("Selecione uma editora antes de salvar.");
+            return;
+        }
         const livro = {
             codigo: 0,
             titulo,
@@ -86,7 +91,7 @@ const LivroDados: React.FC = () => {
 
                     <div className= "mb-3">
                         <label>Editora</label>
-                        <select value={codEditora} onChange={tratarCombo} className="form-select">
+                        <select value = {codEditora} onChange={tratarCombo} className="form-select">
                         {opcoes.map((opcao) => (
                             <option key={opcao.value} value={opcao.value}>
                                 {opcao.text}

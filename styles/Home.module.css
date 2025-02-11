@@ -6,11 +6,12 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-    grid-row-start: 2;
+    grid-row-start: 8;
+    
   }
   
   .title {
     font-size: 2rem;
-    color: #333;
+    color: rgb(92, 25, 224);
   }
   

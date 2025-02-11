@@ -15,8 +15,8 @@ export default function Home () {
       <Menu />
         {/* Área principal da página */}
         <main className = {styles.main}>
-        <h1 className = {styles.title}>Página Inicial da Loja</h1>
-      </main>
+          <h1 className = {styles.title}>Página Inicial da Loja</h1>
+        </main>
     </div>
   );
 }
