@@ -5,34 +5,23 @@ import { LinhaLivro } from "@/classes/componentes/LinhaLivro";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import RootLayout from "../app/layout";
+import { ControleLivros } from "@/classes/controle/ControleLivros";
 
-const baseURL: string = "http://localhost:3000/api/livros";
-
-const obter = async () : Promise<Livro[]> => {
-    const resposta = await fetch(baseURL);
-    return resposta.json();
-};
-
-const excluirLivro = async(codigo : number) : Promise<boolean> => {
-    const resposta = await fetch(`${baseURL}/${codigo}`, { method : 'DELETE'});
-    return resposta.ok;
-};
+const controleLivros = new ControleLivros();
 
 const LivroLista : React.FC = () => {
     const [livros, setLivros] = useState<Array<Livro>> ([]);
     const [carregado, setCarregado] = useState<boolean>(false);
 
     useEffect(() => {
-        if(!carregado) {
-            obter().then((dados) => {
-                setLivros(dados);
-                setCarregado(true);
+        controleLivros.obterLivros().then((dados) => {
+            setLivros(dados);
+            setCarregado(true);
             });
-        }
     }, [carregado]);
 
-    const excluir = (codigo : number) => {
-        excluirLivro(codigo).then((sucesso) => {
+    const excluir = (codigo : string) => {
+        controleLivros.excluir(codigo).then((sucesso) => {
             if (sucesso) {
                 setCarregado(false);
             }
@@ -59,8 +48,8 @@ const LivroLista : React.FC = () => {
                     </tr>
                     </thead>
                     <tbody>
-                        {livros.map((livro) => (
-                        <LinhaLivro key={livro.codigo} livro={livro} excluir={() => excluir(livro.codigo)} />
+                        {livros.map((livro, index) => (
+                        <LinhaLivro key={index} livro={livro} excluir={() => excluir(livro.codigo)} />
                         ))}
                     </tbody>
                 </table>

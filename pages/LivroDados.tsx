@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import { ControleEditora } from "@/classes/controle/ControleEditora";
-import { Livro } from "@/classes/modelo/Livro";
+//import { Livro } from "@/classes/modelo/Livro";
 import { Menu } from "@/classes/componentes/Menu";
-import { ok } from "assert";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import RootLayout from "@/app/layout";
+import { ControleLivros } from "@/classes/controle/ControleLivros";
 
 const controleEditora = new ControleEditora();
-const baseURL: string = "http://localhost:3000/api/livros";
+const controleLivros = new ControleLivros;
 
-const incluirLivro = async (livro:Livro) => {
-    const resposta = await fetch(baseURL, {
-        method : "POST",
-        headers : { "Content-Type": "application/json" },
-        body : JSON.stringify(livro),
-    });
-    return resposta.ok;
-}; 
 const LivroDados: React.FC = () => {
     const opcoes = controleEditora.getEditoras().map((editora) => ({
         value: editora.codEditora,
@@ -36,7 +28,7 @@ const LivroDados: React.FC = () => {
         setCodEditora(Number(evento.target.value));
     };
 
-    const incluir = async (evento: React.FormEvent<HTMLFormElement>) => {
+    const incluir = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault();
 
         if (codEditora === null) {
@@ -44,14 +36,16 @@ const LivroDados: React.FC = () => {
             return;
         }
         const livro = {
-            codigo: 0,
+            codigo: "", //alteração com String vazia
             titulo,
             resumo,
             autores: autores.split("\n"),
             codEditora,
         };
-        const sucess = await incluirLivro(livro);
-        if (sucess) router.push("/LivroLista");
+
+        controleLivros.incluir(livro).then (() => {
+            router.push("/LivroLista"); //redireciona após a inclusão
+        });
     };
 
     return (

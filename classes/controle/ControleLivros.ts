@@ -1,27 +1,46 @@
 import { Livro } from "../modelo/Livro";
 
-//Variável livros
-const livros: Array<Livro> = [
-  new Livro(1, 1, "Título 1", "Resumo 1", ["Autor 1"]),
-  new Livro(2, 2, "Título 2", "Resumo 2", ["Autor 2"]),
-  new Livro(3, 3, "Título 3", "Resumo 3", ["Autor 3"]),
-];
+const baseURL: string = "http://localhost:3030/livros";
+
+//Interface LivroMongo
+interface LivroMongo {
+  _id : String | null;
+  codEditora : number;
+  titulo: string;
+  resumo: string;
+  autores: string [];
+}
 
 export class ControleLivros {
-  obterLivros(): Array<Livro> {
-    return livros;
+  async obterLivros(): Promise<Livro[]> {
+    const resposta = await fetch (baseURL, {method: "GET" });
+    const dados: LivroMongo[] = await resposta.json();
+    return dados.map (
+      (livro) => new Livro (String(livro._id), livro.codEditora, livro.titulo, livro.resumo, livro.autores)
+      //fazer testes com String. Se não funcionar, converter para new Livro (parseInt(livro._Id || "0"))
+    );
   }
 
-  incluir(livro: Livro): void {
-    const maxCodigo = livros.reduce((max, livro) => Math.max(max, livro.codigo), 0);
-    livro.codigo = maxCodigo + 1;
-    livros.push(livro);
+  async incluir(livro: Livro): Promise<boolean> {
+   const livroMongo : LivroMongo = {
+    _id : null,
+    codEditora : livro.codEditora,
+    titulo : livro.titulo,
+    resumo : livro.resumo,
+    autores : livro.autores,
+   };
+
+    const resposta = await fetch(baseURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(livroMongo),
+    });
+
+    return resposta.ok;
   }
 
-  excluir(codigo: number): void {
-    const index = livros.findIndex((livro) => livro.codigo === codigo);
-    if (index !== -1) {
-      livros.splice(index, 1);
+  async excluir(codigo: string): Promise<boolean> {
+    const resposta = await fetch(`${baseURL}/${codigo}`, { method : "DELETE" });
+    return resposta.ok;
     }
   }
-}
